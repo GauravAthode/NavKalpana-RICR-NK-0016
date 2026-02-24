@@ -1,25 +1,38 @@
-import { haversineKm } from "./haversine.js";
+export async function geocodeAddress(address) {
+  const url =
+    "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+    encodeURIComponent(address);
 
-export function buildCumulativeKm(coordinatesLngLat) {
-  const coords = coordinatesLngLat.map(([lng, lat]) => ({ lat, lng }));
-  const cumulative = [0];
+  const resp = await fetch(url, {
+    headers: {
+      "User-Agent": "VoltPathHackathon/1.0",
+    },
+  });
 
-  for (let i = 1; i < coords.length; i++) {
-    cumulative[i] = cumulative[i - 1] + haversineKm(coords[i - 1], coords[i]);
-  }
-  return { coords, cumulative };
+  if (!resp.ok) throw new Error("Geocoding failed");
+
+  const data = await resp.json();
+  if (!data?.length) throw new Error("Address not found: " + address);
+
+  return { lat: Number(data[0].lat), lng: Number(data[0].lon) };
 }
 
-export function nearestRouteIndex(coords, point) {
-  let bestIdx = 0;
-  let bestDist = Infinity;
+export async function fetchRoute(start, end) {
+  const url =
+    "https://router.project-osrm.org/route/v1/driving/" +
+    `${start.lng},${start.lat};${end.lng},${end.lat}` +
+    "?overview=full&geometries=geojson";
 
-  for (let i = 0; i < coords.length; i++) {
-    const d = haversineKm(coords[i], point);
-    if (d < bestDist) {
-      bestDist = d;
-      bestIdx = i;
-    }
-  }
-  return bestIdx;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error("Routing failed");
+
+  const json = await resp.json();
+  const route = json?.routes?.[0];
+  if (!route) throw new Error("No route found");
+
+  return {
+    distanceKm: route.distance / 1000,
+    durationSec: route.duration,
+    coordinatesLngLat: route.geometry.coordinates,
+  };
 }
