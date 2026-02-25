@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Logo from "../assets/logo.png"
 
 export default function Navbar() {
   return (
@@ -10,7 +11,9 @@ export default function Navbar() {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-3"
         >
-          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-indigo-500 via-fuchsia-500 to-emerald-400 shadow-glow" />
+          <div className="h-10 w-10 rounded-2xl">
+            <img src={Logo} alt="logo" />
+          </div>
           <div>
             <div className="text-lg font-semibold leading-tight">VoltPath</div>
             <div className="text-xs text-slate-400">EV Route & Charging Planner</div>
