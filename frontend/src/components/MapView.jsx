@@ -22,10 +22,10 @@ export default function MapView({ planResult }) {
   return (
     <GlassCard className="p-0 overflow-hidden">
       <div className="px-5 pt-5">
-        <h2 className="text-lg font-semibold text-brand-light">Route Map</h2>
+        <h2 className="text-lg font-semibold text-white">Route Map</h2>
       </div>
 
-      <div className="mt-4 h-105 w-full">
+      <div className="mt-4 h-96 w-full">
         <MapContainer center={center} zoom={7} className="h-full w-full">
           <TileLayer
             attribution='&copy; OpenStreetMap contributors'

@@ -115,16 +115,16 @@ export default function RouteForm() {
       </div>
 
       {error ? (
-        <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-3 text-sm text-rose-200">
+        <div className="rounded-2xl border border-red-400/30 bg-red-600/20 p-3 text-sm text-red-200">
           {String(error)}
         </div>
       ) : null}
 
       <motion.button
-        whileHover={{ scale: 1.01 }}
-        whileTap={{ scale: 0.99 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         disabled={isPlanning}
-        className="w-full rounded-2xl py-3 font-semibold bg-linear-to-r from-brand-primary via-brand-accent to-brand-secondary text-brand-light shadow-glow disabled:opacity-60"
+        className="w-full rounded-2xl py-3 font-semibold bg-linear-to-r from-[#222831] via-[#948979] to-[#393E46] text-white shadow-glow hover:shadow-2xl transition-shadow duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {isPlanning ? "Planning…" : "Generate Optimized Route"}
       </motion.button>
@@ -137,10 +137,10 @@ export default function RouteForm() {
 function Input({ label, ...props }) {
   return (
     <div className="space-y-1">
-      <div className="text-xs text-brand-light/80">{label}</div>
+      <div className="text-xs text-white/80">{label}</div>
       <input
         {...props}
-        className="w-full rounded-2xl border border-brand-secondary/20 bg-brand-secondary/40 px-4 py-3 text-sm outline-none focus:border-brand-accent/50"
+        className="w-full rounded-2xl border border-[#393E46]/20 bg-[#393E46]/40 px-4 py-3 text-sm text-white placeholder-white/60 outline-none transition-colors duration-200 focus:border-[#948979] focus:bg-[#393E46]/60"
       />
     </div>
   );

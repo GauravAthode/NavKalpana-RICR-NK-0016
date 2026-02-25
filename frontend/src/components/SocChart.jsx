@@ -10,10 +10,10 @@ export default function SocChart({ planResult }) {
     <GlassCard>
       <div className="flex items-end justify-between">
         <div>
-          <div className="text-sm font-semibold text-brand-light">SoC Curve</div>
-          <div className="text-xs text-brand-light/80">Segment-level remaining battery simulation</div>
+          <div className="text-sm font-semibold text-white">SoC Curve</div>
+          <div className="text-xs text-white/80">Segment-level remaining battery simulation</div>
         </div>
-        <div className="text-xs text-brand-light/60">SoC (%)</div>
+        <div className="text-xs text-white/60">SoC (%)</div>
       </div>
 
       <div className="mt-4 h-64">
@@ -23,7 +23,7 @@ export default function SocChart({ planResult }) {
             <XAxis dataKey="point" tick={{ fill: "#94a3b8", fontSize: 12 }} />
             <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} domain={[0, 100]} />
             <Tooltip contentStyle={{ background: "rgba(2,6,23,0.9)", border: "1px solid rgba(255,255,255,0.1)" }} />
-            <Line type="monotone" dataKey="soc" strokeWidth={3} dot={false} stroke="var(--tw-color-brand-accent)" />
+            <Line type="monotone" dataKey="soc" strokeWidth={3} dot={false} stroke="#948979" />
           </LineChart>
         </ResponsiveContainer>
       </div>

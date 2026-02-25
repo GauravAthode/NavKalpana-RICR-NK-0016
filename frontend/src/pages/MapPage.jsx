@@ -8,13 +8,13 @@ export default function MapPage() {
   if (!planResult) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p className="text-brand-light/80">No route generated yet.</p>
+        <p className="text-white/80">No route generated yet.</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold">Map View</h1>
       <MapView planResult={planResult} />
     </div>

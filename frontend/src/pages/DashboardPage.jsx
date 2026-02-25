@@ -12,7 +12,7 @@ export default function DashboardPage() {
   if (!planResult) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-center text-brand-light/80">
+        <div className="text-center text-white/80">
           <p>No plan available. Please create a route first.</p>
         </div>
       </div>
@@ -20,7 +20,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
       <SummaryCards planResult={planResult} />
       <MapView planResult={planResult} />

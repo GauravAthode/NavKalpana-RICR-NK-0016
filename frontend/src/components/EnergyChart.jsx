@@ -19,7 +19,7 @@ export default function EnergyChart({ planResult }) {
           <XAxis dataKey="name" tick={{ fill: "#94a3b8", fontSize: 12 }} />
           <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
           <Tooltip />
-          <Line type="monotone" dataKey="energy" strokeWidth={3} stroke="var(--tw-color-brand-accent)" />
+          <Line type="monotone" dataKey="energy" strokeWidth={3} stroke="#948979" />
         </LineChart>
       </ResponsiveContainer>
     </div>
