@@ -124,7 +124,7 @@ export default function RouteForm() {
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.99 }}
         disabled={isPlanning}
-        className="w-full rounded-2xl py-3 font-semibold bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-400 text-slate-950 shadow-glow disabled:opacity-60"
+        className="w-full rounded-2xl py-3 font-semibold bg-linear-to-r from-brand-primary via-brand-accent to-brand-secondary text-brand-light shadow-glow disabled:opacity-60"
       >
         {isPlanning ? "Planning…" : "Generate Optimized Route"}
       </motion.button>
@@ -137,10 +137,10 @@ export default function RouteForm() {
 function Input({ label, ...props }) {
   return (
     <div className="space-y-1">
-      <div className="text-xs text-slate-400">{label}</div>
+      <div className="text-xs text-brand-light/80">{label}</div>
       <input
         {...props}
-        className="w-full rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm outline-none focus:border-fuchsia-400/50"
+        className="w-full rounded-2xl border border-brand-secondary/20 bg-brand-secondary/40 px-4 py-3 text-sm outline-none focus:border-brand-accent/50"
       />
     </div>
   );

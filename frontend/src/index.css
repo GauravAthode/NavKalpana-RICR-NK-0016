@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 @import "tailwindcss";
 
 html, body {
@@ -5,5 +6,22 @@ html, body {
 }
 
 body {
-  @apply bg-slate-950 text-slate-100;
+ 
+}
+
+:root {
+  /* Primary */
+  --color-primary: #222831;
+  --color-primary-hover: #1B2026; /* slightly darker */
+
+  /* Secondary */
+  --color-secondary: #393E46;
+  --color-secondary-hover: #2E3238; /* slightly darker */
+
+  /* Background & Text */
+  --color-background: #DFD0B8;
+  --color-text: #222831;
+
+  /* Accent */
+  --color-accent: #948979;
 }

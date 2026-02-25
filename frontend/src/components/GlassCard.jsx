@@ -8,7 +8,7 @@ export default function GlassCard({ children, className = "" }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
       className={
-        "rounded-3xl border border-white/10 bg-white/5 backdrop-blur p-5 shadow-xl " + className
+        "rounded-3xl border border-brand-secondary/20 bg-brand-light/5 backdrop-blur p-5 shadow-xl " + className
       }
     >
       {children}
