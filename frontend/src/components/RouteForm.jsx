@@ -10,12 +10,13 @@ const defaultState = {
   efficiencyKmPerKwh: 6.5,
   usableBatteryPercent: 90,
   minimumReserveSocPercent: 15,
-  electricityRatePerKwh: 10
+  electricityRatePerKwh: 10,
 };
 
 export default function RouteForm() {
   const [form, setForm] = useState(defaultState);
-  const { setPlanResult, isPlanning, setIsPlanning, error, setError } = useTrip();
+  const { setPlanResult, isPlanning, setIsPlanning, error, setError } =
+    useTrip();
 
   function onChange(e) {
     const { name, value } = e.target;
@@ -36,9 +37,15 @@ export default function RouteForm() {
           batteryCapacityKwh: Number(form.batteryCapacityKwh),
           efficiencyKmPerKwh: Number(form.efficiencyKmPerKwh),
           usableBatteryPercent: Number(form.usableBatteryPercent),
-          minimumReserveSocPercent: Number(form.minimumReserveSocPercent)
+          minimumReserveSocPercent: Number(form.minimumReserveSocPercent),
         },
-        pricing: { electricityRatePerKwh: Number(form.electricityRatePerKwh) }
+        pricing: { electricityRatePerKwh: Number(form.electricityRatePerKwh) },
+        weather: {
+          temperature: Number(form.temperature || 25),
+          wind: "none",
+          hvac: true,
+        },
+        traffic: form.traffic || "free",
       };
 
       const { data } = await apiClient.post("/trips/plan", payload);
@@ -54,16 +61,57 @@ export default function RouteForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input label="Start Location" name="start" value={form.start} onChange={onChange} />
-        <Input label="Destination" name="destination" value={form.destination} onChange={onChange} />
+        <Input
+          label="Start Location"
+          name="start"
+          value={form.start}
+          onChange={onChange}
+        />
+        <Input
+          label="Destination"
+          name="destination"
+          value={form.destination}
+          onChange={onChange}
+        />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <Input label="Battery (kWh)" name="batteryCapacityKwh" value={form.batteryCapacityKwh} onChange={onChange} type="number" />
-        <Input label="Efficiency (km/kWh)" name="efficiencyKmPerKwh" value={form.efficiencyKmPerKwh} onChange={onChange} type="number" step="0.1" />
-        <Input label="Usable %" name="usableBatteryPercent" value={form.usableBatteryPercent} onChange={onChange} type="number" />
-        <Input label="Reserve SoC %" name="minimumReserveSocPercent" value={form.minimumReserveSocPercent} onChange={onChange} type="number" />
-        <Input label="Rate (₹/kWh)" name="electricityRatePerKwh" value={form.electricityRatePerKwh} onChange={onChange} type="number" />
+        <Input
+          label="Battery (kWh)"
+          name="batteryCapacityKwh"
+          value={form.batteryCapacityKwh}
+          onChange={onChange}
+          type="number"
+        />
+        <Input
+          label="Efficiency (km/kWh)"
+          name="efficiencyKmPerKwh"
+          value={form.efficiencyKmPerKwh}
+          onChange={onChange}
+          type="number"
+          step="0.1"
+        />
+        <Input
+          label="Usable %"
+          name="usableBatteryPercent"
+          value={form.usableBatteryPercent}
+          onChange={onChange}
+          type="number"
+        />
+        <Input
+          label="Reserve SoC %"
+          name="minimumReserveSocPercent"
+          value={form.minimumReserveSocPercent}
+          onChange={onChange}
+          type="number"
+        />
+        <Input
+          label="Rate (₹/kWh)"
+          name="electricityRatePerKwh"
+          value={form.electricityRatePerKwh}
+          onChange={onChange}
+          type="number"
+        />
       </div>
 
       {error ? (
@@ -81,9 +129,7 @@ export default function RouteForm() {
         {isPlanning ? "Planning…" : "Generate Optimized Route"}
       </motion.button>
 
-      <div className="text-xs text-slate-400">
-        Uses deterministic simulation (Part 1): Route → Segment → Simulate → Charge → Recalculate → Optimize → Visualize.
-      </div>
+      
     </form>
   );
 }

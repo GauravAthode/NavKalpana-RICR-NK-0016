@@ -11,11 +11,30 @@ export default function SummaryCards({ planResult }) {
   const cost = simulation.tripCost;
 
   const cards = [
-    { title: "Distance", value: `${distance.toFixed(1)} km`, hint: "Total route length" },
-    { title: "Driving Time", value: `${driveH.toFixed(2)} h`, hint: "Base driving duration" },
-    { title: "Charging Time", value: `${chargeH.toFixed(2)} h`, hint: "Total charging duration" },
-    { title: "Energy Required", value: `${totalEnergy.toFixed(2)} kWh`, hint: "Distance ÷ Efficiency" },
-    { title: "Trip Cost", value: `₹${Number(cost).toFixed(2)}`, hint: "Energy × Rate" }
+    {
+      title: "Distance",
+      value: `${distance.toFixed(1)} km`,
+    },
+    {
+      title: "Driving Time",
+      value: `${driveH.toFixed(2)} h`,
+    },
+    {
+      title: "Charging Time",
+      value: `${chargeH.toFixed(2)} h`,
+    },
+    {
+      title: "Energy Required",
+      value: `${totalEnergy.toFixed(2)} kWh`,
+    },
+    {
+      title: "Trip Cost",
+      value: `₹${Number(cost).toFixed(2)}`,
+    },
+    {
+      title: "Battery Health Impact",
+      value: planResult.simulation.advanced.batteryHealthImpact.level,
+    },
   ];
 
   return (

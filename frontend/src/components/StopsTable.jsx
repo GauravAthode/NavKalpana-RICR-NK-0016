@@ -7,7 +7,6 @@ export default function StopsTable({ planResult }) {
   return (
     <GlassCard>
       <div className="text-sm font-semibold">Charging Stops</div>
-      <div className="text-xs text-slate-400">Placement + arrival SoC + energy + duration + cost</div>
 
       <div className="mt-4 overflow-x-auto">
         <table className="min-w-full text-sm">

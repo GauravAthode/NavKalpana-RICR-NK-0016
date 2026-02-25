@@ -23,7 +23,7 @@ export default function MapView({ planResult }) {
     <GlassCard className="p-0 overflow-hidden">
       <div className="px-5 pt-5">
         <div className="text-sm font-semibold">Route Map</div>
-        <div className="text-xs text-slate-400">Interactive map with route polyline and charging markers</div>
+       
       </div>
 
       <div className="mt-4 h-[420px] w-full">

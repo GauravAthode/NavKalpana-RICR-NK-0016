@@ -3,6 +3,11 @@ import { Trip } from "../model/Trip.js";
 import { ChargingStation } from "../model/ChargingStation.js";
 import { geocodeAddress, fetchRoute } from "../utils/geoService.js";
 import { simulateTripPlan } from "../utils/simulationEngine.js";
+import {
+  applyWeatherImpact,
+  applyTrafficImpact,
+  estimateBatteryDegradation,
+} from "../utils/advancedSimulationEngine.js";
 
 const planSchema = z.object({
   start: z.string().min(3),
@@ -11,11 +16,13 @@ const planSchema = z.object({
     batteryCapacityKwh: z.number().positive(),
     efficiencyKmPerKwh: z.number().positive(),
     usableBatteryPercent: z.number().min(1).max(100),
-    minimumReserveSocPercent: z.number().min(0).max(100)
+    minimumReserveSocPercent: z.number().min(0).max(100),
   }),
-  pricing: z.object({
-    electricityRatePerKwh: z.number().positive()
-  }).optional()
+  pricing: z
+    .object({
+      electricityRatePerKwh: z.number().positive(),
+    })
+    .optional(),
 });
 
 export async function planTrip(req, res) {
@@ -36,8 +43,8 @@ export async function planTrip(req, res) {
       ...s,
       location: {
         lat: s.location.coordinates[1],
-        lng: s.location.coordinates[0]
-      }
+        lng: s.location.coordinates[0],
+      },
     }));
 
     const result = simulateTripPlan({
@@ -49,12 +56,34 @@ export async function planTrip(req, res) {
       electricityRatePerKwh,
       safetyFactor: Number(process.env.DEFAULT_SAFETY_FACTOR || 0.85),
       targetSocDefault: Number(process.env.DEFAULT_TARGET_SOC || 80),
-      chargingPowerFallback: Number(process.env.DEFAULT_CHARGING_POWER_KW || 60)
+      chargingPowerFallback: Number(
+        process.env.DEFAULT_CHARGING_POWER_KW || 60,
+      ),
     });
 
     if (!result.ok) {
       return res.status(422).json({ ok: false, error: result.error });
     }
+    const weatherAdjustedEnergy = applyWeatherImpact(
+      result.simulation.totalEnergyKwh,
+      req.body.weather || { temperature: 25 },
+    );
+
+    const trafficAdjustedEnergy = applyTrafficImpact(
+      weatherAdjustedEnergy,
+      req.body.traffic || "free",
+    );
+
+    const degradation = estimateBatteryDegradation({
+      fastCharges: result.simulation.stops.length,
+      depthOfDischarge: 80,
+    });
+
+    result.simulation.advanced = {
+      weatherAdjustedEnergy,
+      trafficAdjustedEnergy,
+      batteryHealthImpact: degradation,
+    };
 
     return res.json({
       ok: true,
@@ -62,10 +91,10 @@ export async function planTrip(req, res) {
         start: parsed.start,
         destination: parsed.destination,
         vehicle: parsed.vehicle,
-        pricing: { electricityRatePerKwh }
+        pricing: { electricityRatePerKwh },
       },
       route: result.route,
-      simulation: result.simulation
+      simulation: result.simulation,
     });
   } catch (err) {
     if (err?.name === "ZodError") {
@@ -92,6 +121,7 @@ export async function listTrips(req, res) {
 
 export async function getTrip(req, res) {
   const trip = await Trip.findById(req.params.id).lean();
-  if (!trip) return res.status(404).json({ ok: false, error: "Trip not found" });
+  if (!trip)
+    return res.status(404).json({ ok: false, error: "Trip not found" });
   res.json({ ok: true, trip });
 }

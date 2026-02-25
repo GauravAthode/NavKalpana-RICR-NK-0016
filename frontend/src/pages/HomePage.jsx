@@ -6,14 +6,16 @@ import SummaryCards from "../components/SummaryCards.jsx";
 import MapView from "../components/MapView.jsx";
 import SocChart from "../components/SocChart.jsx";
 import StopsTable from "../components/StopsTable.jsx";
+import EnergyChart from "../components/EnergyChart.jsx";
 import { useTrip } from "../context/TripContext.jsx";
 
 export default function HomePage() {
   const { planResult } = useTrip();
 
   return (
-    <div>
+    <div id="home">
       <Navbar />
+
       <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           <GlassCard className="lg:col-span-2">
@@ -48,15 +50,24 @@ export default function HomePage() {
         </div>
 
         {planResult ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SocChart planResult={planResult} />
-            <StopsTable planResult={planResult} />
-          </div>
+          <>
+            {/* Charts Row (2 columns on large screens) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div id="socCurve">
+                <SocChart planResult={planResult} />
+              </div>
+
+              <EnergyChart planResult={planResult} />
+            </div>
+
+            {/* Charging Stops (full width for readability) */}
+            <div id="chargingStop">
+              <StopsTable planResult={planResult} />
+            </div>
+          </>
         ) : null}
 
-        <div className="text-xs text-slate-500">
-          VoltPath Part 1 (Core Engine) — route geometry, segment SoC simulation, charging stop placement, time & cost estimates, and full map visualization.
-        </div>
+       
       </div>
     </div>
   );

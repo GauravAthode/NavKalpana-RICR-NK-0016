@@ -16,10 +16,6 @@ export default function Navbar() {
             <div className="text-xs text-slate-400">EV Route & Charging Planner</div>
           </div>
         </motion.div>
-
-        <div className="text-xs text-slate-400">
-          Part 1 • Core Route & Charging Optimization
-        </div>
       </div>
     </div>
   );
