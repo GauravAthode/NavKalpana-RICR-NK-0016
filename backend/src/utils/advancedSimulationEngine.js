@@ -1,12 +1,15 @@
 export function applyWeatherImpact(baseEnergy, weather) {
   let multiplier = 1;
 
+  // Temperature impact
   if (weather.temperature < 0) multiplier += 0.4;
   else if (weather.temperature < 10) multiplier += 0.25;
 
+  // Wind impact
   if (weather.wind === "head") multiplier += 0.15;
   if (weather.wind === "tail") multiplier -= 0.08;
 
+  // HVAC impact
   if (weather.hvac) multiplier += 0.1;
 
   return baseEnergy * multiplier;

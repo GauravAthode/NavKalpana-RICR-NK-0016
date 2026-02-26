@@ -61,11 +61,6 @@ export default function AboutPage() {
           </div>
 
         </div>
-
-        <div className="mt-10 text-center text-sm text-white/50">
-          Built for NavKalpana Hackathon 🚀
-        </div>
-
       </div>
     </motion.div>
   );

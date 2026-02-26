@@ -11,6 +11,10 @@ const defaultState = {
   usableBatteryPercent: 90,
   minimumReserveSocPercent: 15,
   electricityRatePerKwh: 10,
+  temperature: 25,
+  wind: "none",
+  hvac: false,
+  traffic: "free",
 };
 
 export default function RouteForm() {
@@ -39,13 +43,10 @@ export default function RouteForm() {
           minimumReserveSocPercent: Number(form.minimumReserveSocPercent),
         },
         pricing: { electricityRatePerKwh: Number(form.electricityRatePerKwh) },
-
-        // If your backend expects environment.* then change accordingly.
-        // Keeping your current payload structure as-is.
         weather: {
           temperature: Number(form.temperature || 25),
-          wind: "none",
-          hvac: true,
+          wind: form.wind || "none",
+          hvac: Boolean(form.hvac),
         },
         traffic: form.traffic || "free",
       };
@@ -121,6 +122,68 @@ export default function RouteForm() {
         onChange={onChange}
         type="number"
       />
+
+      {/* Weather & Traffic Section */}
+      <div className="border-t border-white/10 pt-4 mt-4">
+        <h3 className="text-sm font-semibold text-white/80 mb-4">Advanced Conditions</h3>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Input
+            label="Temperature (°C)"
+            name="temperature"
+            value={form.temperature}
+            onChange={onChange}
+            type="number"
+          />
+          <div className="space-y-2">
+            <label className="text-sm text-white/75">Wind Condition</label>
+            <select
+              name="wind"
+              value={form.wind}
+              onChange={onChange}
+              className="w-full h-14 rounded-2xl px-5 text-sm text-white/90
+                         bg-slate-950/30 border border-white/10 backdrop-blur
+                         outline-none transition-all duration-200
+                         hover:border-orange-400/40 hover:bg-slate-950/40
+                         focus:ring-2 focus:ring-orange-400/60 focus:border-orange-400/60"
+            >
+              <option value="none">No Wind</option>
+              <option value="head">Headwind (+5-20%)</option>
+              <option value="tail">Tailwind (-3-10%)</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+          <div className="flex items-center space-x-3 bg-slate-950/30 border border-white/10 rounded-2xl px-5 py-3">
+            <input
+              type="checkbox"
+              name="hvac"
+              checked={form.hvac}
+              onChange={(e) => setForm(p => ({ ...p, hvac: e.target.checked }))}
+              className="w-5 h-5 rounded cursor-pointer accent-orange-400"
+            />
+            <label className="text-sm text-white/75 cursor-pointer flex-1">HVAC Active (+10%)</label>
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm text-white/75">Traffic Condition</label>
+            <select
+              name="traffic"
+              value={form.traffic}
+              onChange={onChange}
+              className="w-full h-14 rounded-2xl px-5 text-sm text-white/90
+                         bg-slate-950/30 border border-white/10 backdrop-blur
+                         outline-none transition-all duration-200
+                         hover:border-orange-400/40 hover:bg-slate-950/40
+                         focus:ring-2 focus:ring-orange-400/60 focus:border-orange-400/60"
+            >
+              <option value="free">Free Flow</option>
+              <option value="medium">Medium (+5-10%)</option>
+              <option value="heavy">Heavy (+10-20%)</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
       {error ? (
         <div className="rounded-2xl border border-red-400/30 bg-red-600/15 p-3 text-sm text-red-200">

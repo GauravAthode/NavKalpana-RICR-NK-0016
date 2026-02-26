@@ -126,6 +126,30 @@ export function simulateTripPlan({
 
   const tripCost = (totalEnergyKwh * electricityRatePerKwh).toFixed(2);
 
+  // Calculate segment-level energy breakdown
+  const segmentData = [];
+  let prevKm = 0;
+  
+  // Add segments between stops
+  for (let i = 0; i <= stops.length; i++) {
+    const nextStopKm = i < stops.length ? stops[i].routeKm : totalRouteKm;
+    const segmentKm = nextStopKm - prevKm;
+    const segmentEnergy = segmentKm / efficiencyKmPerKwh;
+    
+    segmentData.push({
+      segmentIndex: i,
+      distanceKm: Number(segmentKm.toFixed(2)),
+      energyKwh: Number(segmentEnergy.toFixed(3)),
+      cost: Number((segmentEnergy * electricityRatePerKwh).toFixed(2))
+    });
+    
+    prevKm = nextStopKm;
+  }
+
+  // Cost breakdown: charging costs vs driving energy costs
+  const chargingCost = stops.reduce((sum, s) => sum + s.cost, 0);
+  const drivingEnergyCost = totalEnergyKwh * electricityRatePerKwh - chargingCost;
+
   return {
     ok: true,
     route: {
@@ -138,6 +162,12 @@ export function simulateTripPlan({
       drivingTimeHours: Number(drivingTimeHours.toFixed(2)),
       chargingTimeHours: Number(totalChargingTimeHours.toFixed(2)),
       tripCost: Number(tripCost),
+      costBreakdown: {
+        drivingEnergyCost: Number(drivingEnergyCost.toFixed(2)),
+        chargingCost: Number(chargingCost.toFixed(2)),
+        total: Number(tripCost)
+      },
+      segmentData,
       socSeries,
       stops
     }

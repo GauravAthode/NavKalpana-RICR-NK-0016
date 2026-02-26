@@ -9,12 +9,17 @@ const links = [
   { to: "/contact", label: "Contact" },
   { to: "/dashboard", label: "Dashboard" },
   // individual dashboard sections for quick navigation
-  { to: "/dashboard#soc-chart", label: "SOC Curve" },
+  { to: "/dashboard#summary", label: "Summary" },
+  { to: "/dashboard#map", label: "Route Map" },
+  { to: "/dashboard#soc-chart", label: "SoC Curve" },
   { to: "/dashboard#energy-chart", label: "Energy Chart" },
-  { to: "/planner", label: "Planner" },
-  { to: "/stations", label: "Charging Stops" },
-  { to: "/map", label: "Route Map" },
-  // additional items such as settings can be appended here if needed
+  { to: "/dashboard#trip-breakdown", label: "Trip Breakdown" },
+  { to: "/dashboard#cost-breakdown", label: "Cost Breakdown" },
+  { to: "/dashboard#sensitivity", label: "Sensitivity Analysis" },
+  { to: "/dashboard#stops", label: "Charging Stops" },
+  { to: "/planner", label: "Route Planner" },
+  { to: "/stations", label: "Stations" },
+  { to: "/map", label: "Live Map" },
 ];
 
 export default function Sidebar({ open, onClose }) {

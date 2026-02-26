@@ -5,6 +5,9 @@ import MapView from "../components/MapView.jsx";
 import SocChart from "../components/SocChart.jsx";
 import StopsTable from "../components/StopsTable.jsx";
 import EnergyChart from "../components/EnergyChart.jsx";
+import TripBreakdownChart from "../components/TripBreakdownChart.jsx";
+import CostBreakdownChart from "../components/CostBreakdownChart.jsx";
+import SensitivityPanel from "../components/SensitivityPanel.jsx";
 import { useTrip } from "../context/TripContext.jsx";
 
 export default function DashboardPage() {
@@ -52,6 +55,19 @@ export default function DashboardPage() {
         <div id="energy-chart">
           <EnergyChart planResult={planResult} />
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" id="breakdown-charts">
+        <div id="trip-breakdown">
+          <TripBreakdownChart planResult={planResult} />
+        </div>
+        <div id="cost-breakdown">
+          <CostBreakdownChart planResult={planResult} />
+        </div>
+      </div>
+
+      <div id="sensitivity">
+        <SensitivityPanel planResult={planResult} />
       </div>
 
       <div id="stops">
