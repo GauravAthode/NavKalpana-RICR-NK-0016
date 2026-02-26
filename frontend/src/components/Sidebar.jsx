@@ -1,13 +1,20 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useTrip } from "../context/TripContext.jsx";
 
 const links = [
+  { to: "/dashboard", label: "Home" },
+  { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
   { to: "/dashboard", label: "Dashboard" },
-  { to: "/map", label: "Map View" },
-  { to: "/stations", label: "Stations" },
-  { to: "/planner", label: "Route Planner" },
-  { to: "/settings", label: "Settings" },
+  // individual dashboard sections for quick navigation
+  { to: "/dashboard#soc-chart", label: "SOC Curve" },
+  { to: "/dashboard#energy-chart", label: "Energy Chart" },
+  { to: "/planner", label: "Planner" },
+  { to: "/stations", label: "Charging Stops" },
+  { to: "/map", label: "Route Map" },
+  // additional items such as settings can be appended here if needed
 ];
 
 export default function Sidebar({ open, onClose }) {
@@ -22,28 +29,53 @@ export default function Sidebar({ open, onClose }) {
 
   return (
     <>
-      {/* overlay */}
+      {/* overlay - mobile drawer backdrop */}
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-lg transition-opacity duration-300 ease-in-out lg:hidden ${
+        className={`fixed inset-0 z-30 bg-black/60 backdrop-blur-lg transition-opacity duration-300 ease-in-out lg:hidden ${
           open ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
+        role="presentation"
       />
 
-      <div
-        className={`fixed left-0 top-0 bottom-0 w-64 bg-[#393E46] text-white p-6 space-y-6 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${
-          open ? "translate-x-0" : "-translate-x-full"
-        } animate-fade`}
+      {/* sliding panel - mobile drawer */}
+      <motion.div
+        initial={{ x: -300, opacity: 0 }}
+        animate={{ x: open ? 0 : -300, opacity: open ? 1 : 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className="fixed left-0 top-0 bottom-0 z-40 w-64 bg-brand-primary text-brand-text p-6 space-y-6 lg:relative lg:z-0 lg:translate-x-0 lg:w-auto shadow-lg md:shadow-xl"
       >
-        <div className="text-xl font-bold">VoltPath</div>
-        <nav className="space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="text-xl font-bold">VoltPath</div>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-md hover:bg-brand.secondary/70 lg:hidden"
+            aria-label="Close menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-5 h-5 text-white"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <nav className="space-y-3">
           {links.map((l) => (
             <NavLink
               key={l.to}
               to={l.to}
               className={({ isActive }) =>
-                `block px-4 py-2 rounded-lg hover:bg-[#393E46]/70 transition-colors ${
-                  isActive ? "bg-[#222831]/20 text-white" : "text-white"
+                `block px-4 py-2 rounded-lg hover:bg-brand.secondary/70 transition-colors duration-150 ${
+                  isActive ? "bg-brand-primary/20 text-brand-text" : "text-brand-text"
                 }`
               }
               onClick={onClose}
@@ -52,15 +84,15 @@ export default function Sidebar({ open, onClose }) {
             </NavLink>
           ))}
         </nav>
-        <div className="mt-6">
+        <div className="mt-8">
           <button
             onClick={handleNew}
-            className="w-full text-left px-4 py-2 rounded-lg hover:bg-[#393E46]/70 transition-colors text-sm text-white"
+            className="w-full text-left px-4 py-2 rounded-lg bg-brand-primary/20 hover:bg-brand-primary/30 transition-colors text-sm text-brand-text"
           >
             New Plan
           </button>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

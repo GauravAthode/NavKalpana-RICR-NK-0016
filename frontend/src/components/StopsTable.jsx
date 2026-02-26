@@ -10,7 +10,7 @@ export default function StopsTable({ planResult }) {
 
       <div className="mt-4 overflow-x-auto">
         <table className="min-w-full text-sm">
-          <thead className="text-[#948979]/80">
+          <thead className="text-brand-accent/80">
             <tr className="border-b border-white/30">
               <th className="py-2 text-left font-medium">#</th>
               <th className="py-2 text-left font-medium">Station</th>

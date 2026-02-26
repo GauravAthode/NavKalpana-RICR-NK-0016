@@ -23,7 +23,7 @@ export default function SocChart({ planResult }) {
             <XAxis dataKey="point" tick={{ fill: "#94a3b8", fontSize: 12 }} />
             <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} domain={[0, 100]} />
             <Tooltip contentStyle={{ background: "rgba(2,6,23,0.9)", border: "1px solid rgba(255,255,255,0.1)" }} />
-            <Line type="monotone" dataKey="soc" strokeWidth={3} dot={false} stroke="#948979" />
+            <Line type="monotone" dataKey="soc" strokeWidth={3} dot={false} stroke="#ff7a00" />
           </LineChart>
         </ResponsiveContainer>
       </div>

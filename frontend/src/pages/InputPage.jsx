@@ -16,8 +16,8 @@ export default function InputPage() {
   }, [planResult, navigate]);
 
   return (
-    <div className="flex items-center justify-center h-screen bg-linear-to-br from-[#222831] to-[#393E46]">
-      <div className="max-w-md w-full p-8 bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl animate-fade">
+    <div className="flex items-center justify-center h-screen bg-gradient-to-br from-brand-primary to-brand-secondary">
+      <div className="max-w-md w-full p-8 bg-brand-secondary/30 backdrop-blur-lg rounded-3xl shadow-2xl animate-fade">
         <div className="flex justify-center mb-4">
           <img src={Logo} alt="VoltPath logo" className="h-12 w-12" />
         </div>
@@ -25,6 +25,14 @@ export default function InputPage() {
           VoltPath Route Planner
         </h1>
         <RouteForm />
+      </div>
+      <div className="mt-6 text-center text-brand-text/70 text-sm">
+        <a href="/about" className="underline mx-2">
+          About
+        </a>
+        <a href="/contact" className="underline mx-2">
+          Contact
+        </a>
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ export default function SummaryCards({ planResult }) {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
       {cards.map((c) => (
         <GlassCard key={c.title} className="p-4">
-          <div className="text-xs text-[#948979]">{c.title}</div>
+          <div className="text-xs text-brand-accent">{c.title}</div>
           <div className="mt-1 text-xl font-semibold text-white">{c.value}</div>
           <div className="mt-1 text-xs text-white/60">{c.hint}</div>
         </GlassCard>

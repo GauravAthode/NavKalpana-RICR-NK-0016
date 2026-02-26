@@ -15,8 +15,7 @@ const defaultState = {
 
 export default function RouteForm() {
   const [form, setForm] = useState(defaultState);
-  const { setPlanResult, isPlanning, setIsPlanning, error, setError } =
-    useTrip();
+  const { setPlanResult, isPlanning, setIsPlanning, error, setError } = useTrip();
 
   function onChange(e) {
     const { name, value } = e.target;
@@ -40,6 +39,9 @@ export default function RouteForm() {
           minimumReserveSocPercent: Number(form.minimumReserveSocPercent),
         },
         pricing: { electricityRatePerKwh: Number(form.electricityRatePerKwh) },
+
+        // If your backend expects environment.* then change accordingly.
+        // Keeping your current payload structure as-is.
         weather: {
           temperature: Number(form.temperature || 25),
           wind: "none",
@@ -60,24 +62,26 @@ export default function RouteForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
-          label="Start Location"
-          name="start"
-          value={form.start}
-          onChange={onChange}
-        />
-        <Input
-          label="Destination"
-          name="destination"
-          value={form.destination}
-          onChange={onChange}
-        />
-      </div>
+      {/* Column Layout */}
+      <Input
+        label="Start Location"
+        name="start"
+        value={form.start}
+        onChange={onChange}
+        placeholder="Enter start city (e.g. Bhopal)"
+      />
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <Input
+        label="Destination"
+        name="destination"
+        value={form.destination}
+        onChange={onChange}
+        placeholder="Enter destination (e.g. Indore)"
+      />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input
-          label="Battery (kWh)"
+          label="Battery Capacity (kWh)"
           name="batteryCapacityKwh"
           value={form.batteryCapacityKwh}
           onChange={onChange}
@@ -91,31 +95,35 @@ export default function RouteForm() {
           type="number"
           step="0.1"
         />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input
-          label="Usable %"
+          label="Usable Battery (%)"
           name="usableBatteryPercent"
           value={form.usableBatteryPercent}
           onChange={onChange}
           type="number"
         />
         <Input
-          label="Reserve SoC %"
+          label="Reserve SoC (%)"
           name="minimumReserveSocPercent"
           value={form.minimumReserveSocPercent}
           onChange={onChange}
           type="number"
         />
-        <Input
-          label="Rate (₹/kWh)"
-          name="electricityRatePerKwh"
-          value={form.electricityRatePerKwh}
-          onChange={onChange}
-          type="number"
-        />
       </div>
 
+      <Input
+        label="Electricity Rate (₹/kWh)"
+        name="electricityRatePerKwh"
+        value={form.electricityRatePerKwh}
+        onChange={onChange}
+        type="number"
+      />
+
       {error ? (
-        <div className="rounded-2xl border border-red-400/30 bg-red-600/20 p-3 text-sm text-red-200">
+        <div className="rounded-2xl border border-red-400/30 bg-red-600/15 p-3 text-sm text-red-200">
           {String(error)}
         </div>
       ) : null}
@@ -124,23 +132,28 @@ export default function RouteForm() {
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         disabled={isPlanning}
-        className="w-full rounded-2xl py-3 font-semibold bg-linear-to-r from-[#222831] via-[#948979] to-[#393E46] text-white shadow-glow hover:shadow-2xl transition-shadow duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full rounded-2xl py-4 font-semibold text-white
+                   bg-gradient-to-r from-orange-500 via-slate-800 to-orange-500
+                   shadow-glow disabled:opacity-60 disabled:cursor-not-allowed
+                   border border-white/10"
       >
         {isPlanning ? "Planning…" : "Generate Optimized Route"}
       </motion.button>
-
-      
     </form>
   );
 }
 
 function Input({ label, ...props }) {
   return (
-    <div className="space-y-1">
-      <div className="text-xs text-white/80">{label}</div>
+    <div className="space-y-2">
+      <label className="text-sm text-white/75">{label}</label>
       <input
         {...props}
-        className="w-full rounded-2xl border border-[#393E46]/20 bg-[#393E46]/40 px-4 py-3 text-sm text-white placeholder-white/60 outline-none transition-colors duration-200 focus:border-[#948979] focus:bg-[#393E46]/60"
+        className="w-full h-14 rounded-2xl px-5 text-sm text-white/90 placeholder:text-white/35
+                   bg-slate-950/30 border border-white/10 backdrop-blur
+                   outline-none transition-all duration-200
+                   hover:border-orange-400/40 hover:bg-slate-950/40
+                   focus:ring-2 focus:ring-orange-400/60 focus:border-orange-400/60"
       />
     </div>
   );

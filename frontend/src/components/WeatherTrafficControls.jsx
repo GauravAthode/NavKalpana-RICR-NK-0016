@@ -7,9 +7,9 @@ export default function WeatherTrafficControls({ onChange }) {
         type="number"
         placeholder="Temperature °C"
         onChange={(e) => onChange("temperature", e.target.value)}
-        className="p-2 rounded-lg border border-[#393E46]/40 bg-[#393E46]/30 text-white placeholder-white/60 transition-colors duration-200 focus:border-[#948979] focus:bg-[#393E46]/50"
+        className="p-2 rounded-lg border border-brand-secondary/40 bg-brand-secondary/30 text-brand-text placeholder-brand-text/60 transition-colors duration-200 focus:border-brand-accent focus:bg-brand-secondary/50"
       />
-      <select onChange={(e) => onChange("traffic", e.target.value)} className="p-2 rounded-lg border border-[#393E46]/40 bg-[#393E46]/30 text-white transition-colors duration-200 focus:border-[#948979]">
+      <select onChange={(e) => onChange("traffic", e.target.value)} className="p-2 rounded-lg border border-brand-secondary/40 bg-brand-secondary/30 text-brand-text transition-colors duration-200 focus:border-brand-accent">
         <option value="free">Free Flow</option>
         <option value="medium">Medium</option>
         <option value="heavy">Heavy</option>

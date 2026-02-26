@@ -1,48 +1,84 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { TripProvider, useTrip } from "./context/TripContext.jsx";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
 import Layout from "./components/Layout.jsx";
 import InputPage from "./pages/InputPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
+import RoutePlannerPage from "./pages/RoutePlannerPage.jsx";
 import MapPage from "./pages/MapPage.jsx";
 import StationsPage from "./pages/StationsPage.jsx";
-import RoutePlannerPage from "./pages/RoutePlannerPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
-
-function Protected({ children }) {
-  const { planResult } = useTrip();
-  if (!planResult) return <Navigate to="/" replace />;
-  return children;
-}
+import AboutPage from "./pages/AboutPage.jsx";
+import ContactPage from "./pages/ContactPage.jsx";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <TripProvider>
-        <Routes>
-          {/* initial input page */}
-          <Route path="/" element={<InputPage />} />
+    <Router>
+      <Routes>
+        {/* entry route keeps the full-screen input form */}
+        <Route path="/" element={<RoutePlannerPage />} />
 
-          {/* layouted authenticated paths */}
-          <Route
-            path="/*"
-            element={
-              <Protected>
-                <Layout>
-                  <Routes>
-                    <Route path="dashboard" element={<DashboardPage />} />
-                    <Route path="map" element={<MapPage />} />
-                    <Route path="stations" element={<StationsPage />} />
-                    <Route path="planner" element={<RoutePlannerPage />} />
-                    <Route path="settings" element={<SettingsPage />} />
-                    <Route path="*" element={<Navigate to="dashboard" replace />} />
-                  </Routes>
-                </Layout>
-              </Protected>
-            }
-          />
-        </Routes>
-      </TripProvider>
-    </BrowserRouter>
+        {/* everything else lives inside the chrome layout */}
+        <Route
+          path="/dashboard"
+          element={
+            <Layout>
+              <DashboardPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/planner"
+          element={
+            <Layout>
+              <InputPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/map"
+          element={
+            <Layout>
+              <MapPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/stations"
+          element={
+            <Layout>
+              <StationsPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <Layout>
+              <SettingsPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <Layout>
+              <AboutPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Layout>
+              <ContactPage />
+            </Layout>
+          }
+        />
+
+        {/* fallback - redirect unknown paths to start */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }

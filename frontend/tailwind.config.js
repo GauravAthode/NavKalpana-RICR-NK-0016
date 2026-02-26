@@ -5,11 +5,12 @@ export default {
     extend: {
       colors: {
         brand: {
-          // custom theme per user request
-          primary: "#222831",   // very dark navy
-          secondary: "#393E46", // dark charcoal
-          accent: "#948979",    // muted taupe
-          light: "#DFD0B8",     // soft beige for text/highlight
+          // high‑visibility orange + charcoal/dark-gray theme
+          primary: "#0d0d0d",      // charcoal (main background)
+          secondary: "#1a1a1a",    // dark gray (cards/panels)
+          accent: "#ff7a00",       // high‑visibility orange
+          "accent-hover": "#ffa500", // brighter orange for hovers
+          text: "#f1f1f1",         // light gray/white for text
         },
       },
       fontFamily: {

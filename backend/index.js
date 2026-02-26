@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectDb } from "./src/config/db.js";
 import tripRoutes from "./src/routes/tripRoutes.js";
+import contactRoutes from "./src/routes/contactRoutes.js";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json({ limit: "1mb" }));
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
 app.use("/api/trips", tripRoutes);
+app.use("/api/contact", contactRoutes);
 
 const port = Number(process.env.PORT || 4500);
 

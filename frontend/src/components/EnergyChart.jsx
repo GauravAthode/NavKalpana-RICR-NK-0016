@@ -16,10 +16,10 @@ export default function EnergyChart({ planResult }) {
     <div className="h-64">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
-          <XAxis dataKey="name" tick={{ fill: "#94a3b8", fontSize: 12 }} />
-          <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }} />
+          <XAxis dataKey="name" tick={{ fill: "#f1f1f1", fontSize: 12 }} />
+          <YAxis tick={{ fill: "#f1f1f1", fontSize: 12 }} />
           <Tooltip />
-          <Line type="monotone" dataKey="energy" strokeWidth={3} stroke="#948979" />
+          <Line type="monotone" dataKey="energy" strokeWidth={3} stroke="#ff7a00" />
         </LineChart>
       </ResponsiveContainer>
     </div>

@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+/* global background gradient and text color for theme */
+body {
+  @apply bg-gradient-to-br from-[#ff7a00] via-[#1f2937] to-[#0f172a] text-white min-h-screen;
+}
+
+/* smooth rotation for arrow marker */
+.user-arrow-icon > div {
+  transition: transform 0.2s linear;
+}
