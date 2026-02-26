@@ -1,14 +1,15 @@
 import React from "react";
 import { motion } from "framer-motion";
 import RouteForm from "../components/RouteForm.jsx";
+import logo from "../assets/logo.png";
 
 export default function RoutePlannerPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 md:px-16 py-12
-                    bg-gradient-to-br from-slate-900 via-slate-950 to-black">
-
+    <div
+      className="min-h-screen flex items-center justify-center px-6 md:px-16 py-12
+                    bg-gradient-to-br from-slate-900 via-slate-950 to-black"
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl w-full">
-
         {/* LEFT SIDE — BRAND + STORY */}
         <motion.div
           initial={{ opacity: 0, x: -80 }}
@@ -18,8 +19,15 @@ export default function RoutePlannerPage() {
         >
           {/* Brand Name */}
           <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-            <span className="text-white">Volt</span>
-            <span className="text-orange-400">Path</span>
+            <div className="flex">
+              <div className="flex h-15 w-15 mt-3">
+                <img src={logo} alt="logo" />
+              </div>
+              <div>
+                <span className="text-white">Volt</span>
+                <span className="text-orange-400">Path</span>
+              </div>
+            </div>
           </h1>
 
           {/* Tagline */}
@@ -34,18 +42,15 @@ export default function RoutePlannerPage() {
             simulations.
           </p>
 
-         
-          
-
           {/* EV Image */}
-          
+
           <img
             src="/ev-hero.png"
             alt="VoltPath EV"
             className="w-full max-w-lg mx-auto lg:mx-0 drop-shadow-2xl mt-6"
           />
 
-           {/* Feature Chips */}
+          {/* Feature Chips */}
 
           <div className="flex flex-wrap gap-3 justify-center lg:justify-start pt-2">
             <span className="px-4 py-2 text-sm bg-orange-500/20 border border-orange-400/30 rounded-full">
@@ -84,7 +89,6 @@ export default function RoutePlannerPage() {
 
           <RouteForm />
         </motion.div>
-
       </div>
     </div>
   );
