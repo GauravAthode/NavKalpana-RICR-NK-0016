@@ -16,6 +16,14 @@ const tripSchema = new mongoose.Schema(
       electricityRatePerKwh: { type: Number, required: true }
     },
 
+    weather: {
+      temperature: { type: Number, default: 25 },
+      wind: { type: String, default: "none" },
+      hvac: { type: Boolean, default: false }
+    },
+
+    traffic: { type: String, default: "free" },
+
     route: {
       distanceKm: Number,
       durationSec: Number,

@@ -23,22 +23,49 @@ const planSchema = z.object({
       electricityRatePerKwh: z.number().positive(),
     })
     .optional(),
-});
+  weather: z
+    .object({
+      temperature: z.number().optional(),
+      wind: z.string().optional(),
+      hvac: z.boolean().optional(),
+    })
+    .optional(),
+  traffic: z.string().optional(),
+}).passthrough();
 
 export async function planTrip(req, res) {
   try {
+    console.log("[TRIP PLAN] Request received:", {
+      start: req.body.start,
+      destination: req.body.destination,
+    });
+
     const parsed = planSchema.parse(req.body);
 
     const electricityRatePerKwh =
       parsed.pricing?.electricityRatePerKwh ??
       Number(process.env.DEFAULT_ELECTRICITY_RATE || 10);
 
+    console.log("[GEO] Geocoding start:", parsed.start);
     const startCoord = await geocodeAddress(parsed.start);
+    console.log("[GEO] Geocoding end:", parsed.destination);
     const endCoord = await geocodeAddress(parsed.destination);
 
+    console.log("[ROUTE] Fetching route...");
     const route = await fetchRoute(startCoord, endCoord);
+    console.log("[ROUTE] Route fetched:", { distanceKm: route.distanceKm });
 
     const stationsRaw = await ChargingStation.find().lean();
+    console.log("[STATIONS] Found:", stationsRaw.length, "stations");
+    
+    if (!stationsRaw || stationsRaw.length === 0) {
+      console.warn("[WARNING] No charging stations found in database!");
+      return res.status(422).json({ 
+        ok: false, 
+        error: "No charging stations in database. Please seed the database first." 
+      });
+    }
+
     const stations = stationsRaw.map((s) => ({
       ...s,
       location: {
@@ -62,8 +89,11 @@ export async function planTrip(req, res) {
     });
 
     if (!result.ok) {
+      console.error("[SIMULATION] Failed:", result.error);
       return res.status(422).json({ ok: false, error: result.error });
     }
+    
+    console.log("[SIMULATION] Success - stops:", result.simulation.stops.length, "cost:", result.simulation.tripCost);
     const weatherAdjustedEnergy = applyWeatherImpact(
       result.simulation.totalEnergyKwh,
       req.body.weather || { temperature: 25 },
@@ -85,22 +115,42 @@ export async function planTrip(req, res) {
       batteryHealthImpact: degradation,
     };
 
-    return res.json({
+    const responseData = {
       ok: true,
       input: {
         start: parsed.start,
         destination: parsed.destination,
         vehicle: parsed.vehicle,
         pricing: { electricityRatePerKwh },
+        weather: req.body.weather || { temperature: 25, wind: "none", hvac: false },
+        traffic: req.body.traffic || "free",
       },
       route: result.route,
       simulation: result.simulation,
-    });
+    };
+    
+    console.log("[RESPONSE] Sending success response with route and simulation");
+    return res.json(responseData);
   } catch (err) {
+    console.error("[ERROR] Trip planning failed:", {
+      name: err?.name,
+      message: err?.message,
+      stack: err?.stack,
+    });
+
     if (err?.name === "ZodError") {
-      return res.status(400).json({ ok: false, error: err.errors });
+      const errorMessages = err.errors
+        .map((e) => `${e.path.join(".")} - ${e.message}`)
+        .join("; ");
+      return res.status(400).json({ 
+        ok: false, 
+        error: `Validation error: ${errorMessages}` 
+      });
     }
-    return res.status(500).json({ ok: false, error: err.message });
+
+    const errorMessage =
+      err?.message || "Trip planning failed";
+    return res.status(500).json({ ok: false, error: errorMessage });
   }
 }
 

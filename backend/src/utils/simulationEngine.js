@@ -84,7 +84,28 @@ export function simulateTripPlan({
       };
     }
 
-    const chosen = candidateStations[0];
+    // Smart station selection: prefer stations further away to minimize total stops
+    let chosen;
+    if (candidateStations.length === 1) {
+      chosen = candidateStations[0];
+    } else {
+      // Try to pick a station that's closer to the end of the route to minimize stops
+      const remainingToEnd = totalRouteKm - cumulative[currentIdx];
+      const farAwayThreshold = remainingToEnd * 0.7; // Pick a station that's 70% of remaining distance away if possible
+      
+      const farStations = candidateStations.filter(
+        (s) => s.routeKm - cumulative[currentIdx] >= farAwayThreshold
+      );
+      
+      if (farStations.length > 0) {
+        // Pick the closest one among far stations
+        chosen = farStations[0];
+      } else {
+        // If no far station, pick the furthest reachable one
+        chosen = candidateStations[candidateStations.length - 1];
+      }
+    }
+    
     const legKm = chosen.routeKm - cumulative[currentIdx];
 
     const arrivalSoc = clamp(currentSoc - socDropForKm(legKm), 0, 100);
@@ -116,8 +137,8 @@ export function simulateTripPlan({
     currentIdx = chosen.routeIdx;
     currentSoc = effectiveTargetSoc;
 
-    if (stops.length > 20) {
-      return { ok: false, error: "Too many stops (route/stations mismatch).", distanceKm, durationSec };
+    if (stops.length > 50) {
+      return { ok: false, error: "Route too complex - excessive charging stops needed. Try increasing battery capacity or decreasing efficiency loss.", distanceKm, durationSec };
     }
   }
 

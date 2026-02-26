@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { apiClient } from "../config/ApiClient.js";
 import { useTrip } from "../context/TripContext.jsx";
 
@@ -19,6 +20,7 @@ const defaultState = {
 
 export default function RouteForm() {
   const [form, setForm] = useState(defaultState);
+  const navigate = useNavigate();
   const { setPlanResult, isPlanning, setIsPlanning, error, setError } = useTrip();
 
   function onChange(e) {
@@ -51,11 +53,32 @@ export default function RouteForm() {
         traffic: form.traffic || "free",
       };
 
+      console.log("[SUBMIT] Sending payload:", payload);
       const { data } = await apiClient.post("/trips/plan", payload);
-      if (!data.ok) throw new Error("Planning failed");
+      console.log("[SUCCESS] Response:", data);
+      
+      if (!data) {
+        throw new Error("Empty response from server");
+      }
+      if (!data.ok) {
+        throw new Error(data.error || "Planning failed");
+      }
+      if (!data.route || !data.simulation) {
+        console.warn("[WARNING] Response missing route or simulation:", data);
+        throw new Error("Response incomplete: missing route or simulation data");
+      }
+      
       setPlanResult(data);
+      console.log("[NAVIGATE] Redirecting to dashboard...");
+      // Navigate after state is updated
+      setTimeout(() => navigate("/dashboard"), 100);
     } catch (err) {
-      setError(err?.response?.data?.error || err.message);
+      console.error("[ERROR] Failed:", err);
+      const errorMsg = 
+        err?.response?.data?.error || 
+        err?.message || 
+        "Failed to generate route. Check browser console.";
+      setError(errorMsg);
     } finally {
       setIsPlanning(false);
     }
@@ -196,7 +219,7 @@ export default function RouteForm() {
         whileTap={{ scale: 0.98 }}
         disabled={isPlanning}
         className="w-full rounded-2xl py-4 font-semibold text-white
-                   bg-gradient-to-r from-orange-500 via-slate-800 to-orange-500
+                   bg-linear-to-r from-orange-500 via-slate-800 to-orange-500
                    shadow-glow disabled:opacity-60 disabled:cursor-not-allowed
                    border border-white/10"
       >
