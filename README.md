@@ -139,10 +139,6 @@ pm run seed.
   <img src=screenshots/inputPage.png width=700 alt=Input Page />
 </p>
 
-<p align=center>
-  <img src=screenshots/dashboard.png width=700 alt=Dashboard />
-</p>
-
 ---
 
 ## 🔮 Future Improvements
