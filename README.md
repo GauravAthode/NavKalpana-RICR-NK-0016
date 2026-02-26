@@ -152,24 +152,5 @@ pm run seed.
 
 ---
 
-## 🤝 Contributing
 
-1. Fork the repo
-2. Create a feature branch git checkout -b feature/xyz
-3. Commit your changes and push
-4. Open a pull request with description
-
-Please follow existing code style and test new features where possible.
-
----
-
-## 🧾 License
-
-MIT License © 2026 VoltPath team
-
----
-
-## 🙌 Acknowledgements
-
-Built for the NavKalpana Hackathon 2025. Thanks to all mentors, judges and contributors!
 
