@@ -18,7 +18,7 @@ export default function ContactPage() {
     setStatus({ type: "", text: "" });
 
     try {
-      const res = await apiClient.post("/contact", form);
+      const res = await apiClient.post("/api/contact", form);
       if (res.data?.ok) {
         setStatus({ type: "success", text: "Message sent successfully." });
         setForm({ name: "", email: "", subject: "", message: "" });

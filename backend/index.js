@@ -23,3 +23,18 @@ app.get("/health", (req, res) => res.json({ status: "ok" }));
 app.use("/api/trips", tripRoutes);
 app.use("/api/contact", contactRoutes);
 
+const PORT = process.env.PORT || 5000;
+
+async function startServer() {
+  try {
+    await connectDb();
+    app.listen(PORT, () => {
+      console.log(`✅ Server running on http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error("❌ Failed to start server:", err);
+    process.exit(1);
+  }
+}
+
+startServer();
