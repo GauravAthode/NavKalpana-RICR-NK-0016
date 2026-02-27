@@ -23,15 +23,3 @@ app.get("/health", (req, res) => res.json({ status: "ok" }));
 app.use("/api/trips", tripRoutes);
 app.use("/api/contact", contactRoutes);
 
-const port = Number(process.env.PORT || 4500);
-
-connectDb()
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`✅ Backend running at http://localhost:${port}`);
-    });
-  })
-  .catch((err) => {
-    console.error("❌ DB connection failed:", err.message);
-    process.exit(1);
-  });
