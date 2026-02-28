@@ -58,8 +58,8 @@ export default function Sidebar({ open, onClose }) {
         initial={isLarge ? { x: 0, opacity: 1 } : { x: -300, opacity: 0 }}
         animate={isLarge ? { x: 0, opacity: 1 } : { x: open ? 0 : -300, opacity: open ? 1 : 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="fixed left-0 top-0 bottom-0 z-40 w-64 bg-brand-secondary/90 backdrop-blur-md text-brand-text p-6 flex flex-col space-y-6 shadow-xl transform transition-transform duration-300 ease-in-out
-                   lg:w-72 lg:shadow-none lg:translate-x-0 lg:h-full lg:sticky lg:top-0"
+        className="fixed left-0 top-0 bottom-0 z-40 w-64 bg-linear-to-r from-[#0f172a]/90 via-[#1f2937]/90 to-[#0f172a]/90 backdrop-blur-lg text-brand-text p-6 flex flex-col space-y-6 shadow-xl transform transition-transform duration-300 ease-in-out
+                   lg:w-72 lg:shadow-none lg:translate-x-0 lg:h-full lg:sticky lg:top-0 border-r border-white/10"
       >
         <div className="flex items-center justify-between">
           <div className="text-xl font-semibold tracking-wide bg-clip-text text-transparent bg-linear-to-r from-orange-400 via-yellow-300 to-orange-400">VoltPath</div>
