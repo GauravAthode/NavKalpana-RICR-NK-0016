@@ -7,7 +7,7 @@ export default function RoutePlannerPage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-6 md:px-16 py-12
-                    bg-gradient-to-br from-slate-900 via-slate-950 to-black"
+                    bg-linear-to-br from-slate-900 via-slate-950 to-black"
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl w-full">
         {/* LEFT SIDE — BRAND + STORY */}

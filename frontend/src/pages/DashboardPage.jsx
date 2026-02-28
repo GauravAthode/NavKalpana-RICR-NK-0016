@@ -39,7 +39,9 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-orange-400 via-yellow-300 to-orange-400">
+        Dashboard
+      </h1>
       {/* sections with ids for sidebar anchors */}
       <div id="summary">
         <SummaryCards planResult={planResult} />

@@ -110,7 +110,7 @@ export default function ContactPage() {
               disabled={isSending}
               type="submit"
               className="w-full rounded-2xl py-4 font-semibold text-white
-                         bg-gradient-to-r from-orange-400 via-gray-800 to-orange-400 hover:outline-1
+                         bg-linear-to-r from-orange-400 via-gray-800 to-orange-400 hover:outline-1
                          shadow-glow disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isSending ? "Sending..." : "Send Message"}

@@ -15,7 +15,7 @@ export default function MapPage() {
 
   return (
     <div className="space-y-4 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold">Map View</h1>
+      <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-400">Map View</h1>
       <MapView planResult={planResult} />
     </div>
   );

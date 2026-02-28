@@ -54,7 +54,7 @@ export default function RouteForm() {
       };
 
       console.log("[SUBMIT] Sending payload:", payload);
-      const { data } = await apiClient.post("/api/trips/plan", payload);
+      const { data } = await apiClient.post("/trips/plan", payload);
       console.log("[SUCCESS] Response:", data);
       
       if (!data) {

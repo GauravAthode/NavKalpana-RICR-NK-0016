@@ -1,21 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useTrip } from "../context/TripContext.jsx";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png"
 
 export default function Navbar({ onMenuClick }) {
-  const { setPlanResult } = useTrip();
   const navigate = useNavigate();
 
-  function handleNew() {
-    setPlanResult(null);
-    navigate("/");
-  }
-
   return (
-    <div className="sticky top-1 z-50 bg-brand-primary border-b border-brand-secondary shadow-lg backdrop-blur-md">
-      <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between h-16">
+    <div className="sticky top-0 z-50 w-full bg-linear-to-r from-[#0f172a]/90 via-[#1f2937]/90 to-[#0f172a]/90 backdrop-blur-lg border-b border-white/10 shadow-lg">
+      <div className="flex items-center justify-between h-16 max-w-7xl mx-auto px-6">
         {/* brand/logo */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -26,7 +19,7 @@ export default function Navbar({ onMenuClick }) {
             <img src={Logo} alt="logo" />
           </div>
           <div>
-            <div className="text-lg font-semibold leading-tight text-white">
+            <div className="text-lg font-semibold leading-tight bg-clip-text text-transparent bg-linear-to-r from-orange-400 via-yellow-300 to-orange-400">
               VoltPath
             </div>
             <div className="text-xs text-white/80">
@@ -35,37 +28,10 @@ export default function Navbar({ onMenuClick }) {
           </div>
         </motion.div>
 
-        {/* right side actions */}
-        <div className="hidden md:flex items-center gap-3">
-          <NavLink
-            to="/dashboard"
-            className="px-3 py-2 rounded-lg text-brand-text text-sm hover:bg-brand-accent/20 transition-colors duration-150"
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/about"
-            className="px-3 py-2 rounded-lg text-brand-text text-sm hover:bg-brand-accent/20 transition-colors duration-150"
-          >
-            About
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className="px-3 py-2 rounded-lg text-brand-text text-sm hover:bg-brand-accent/20 transition-colors duration-150"
-          >
-            Contact
-          </NavLink>
-          <button
-            onClick={handleNew}
-            className="px-4 py-2 rounded-lg bg-brand-accent text-brand-primary text-sm hover:bg-brand-accent-hover transition-colors duration-150"
-          >
-            New Plan
-          </button>
-        </div>
 
         <button
           onClick={onMenuClick}
-          className="p-2 rounded-md hover:bg-brand-secondary/70 transition-colors duration-150 md:hidden"
+          className="p-2 rounded-md hover:bg-brand-secondary/70 transition-colors duration-150 lg:hidden"
           aria-label="Toggle menu"
         >
           {/* burger icon */}

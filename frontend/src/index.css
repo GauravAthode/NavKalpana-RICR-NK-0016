@@ -1,8 +1,39 @@
 @import "tailwindcss";
 
 /* global background gradient and text color for theme */
+html,
 body {
-  @apply bg-gradient-to-br from-[#ff7a00] via-[#1f2937] to-[#0f172a] text-white min-h-screen;
+  /* reset default browser spacing so sticky header and full-width elements sit flush */
+  @apply m-0 p-0;
+}
+
+body {
+  @apply bg-gradient-to-br from-[#ff7a00] via-[#1f2937] to-[#0f172a] text-white min-h-screen font-sans;
+}
+
+/* hide leaflet attribution control (map footer) – user requested footer removal */
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+/* link styling */
+a {
+  @apply underline hover:text-[#ff7a00] transition-colors duration-150;
+}
+
+button,
+input,
+textarea,
+select {
+  @apply transition-colors duration-150;
+}
+
+/* focus rings for form controls */
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  @apply outline-none ring-2 ring-[#ff7a00]/70;
 }
 
 /* smooth rotation for arrow marker */

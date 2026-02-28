@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTrip } from "../context/TripContext.jsx";
@@ -25,6 +25,16 @@ const links = [
 export default function Sidebar({ open, onClose }) {
   const { setPlanResult } = useTrip();
   const navigate = useNavigate();
+  const [isLarge, setIsLarge] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsLarge(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
 
   function handleNew() {
     setPlanResult(null);
@@ -45,16 +55,17 @@ export default function Sidebar({ open, onClose }) {
 
       {/* sliding panel - mobile drawer */}
       <motion.div
-        initial={{ x: -300, opacity: 0 }}
-        animate={{ x: open ? 0 : -300, opacity: open ? 1 : 0 }}
+        initial={isLarge ? { x: 0, opacity: 1 } : { x: -300, opacity: 0 }}
+        animate={isLarge ? { x: 0, opacity: 1 } : { x: open ? 0 : -300, opacity: open ? 1 : 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="fixed left-0 top-0 bottom-0 z-40 w-64 bg-brand-primary text-brand-text p-6 space-y-6 lg:relative lg:z-0 lg:translate-x-0 lg:w-auto shadow-lg md:shadow-xl"
+        className="fixed left-0 top-0 bottom-0 z-40 w-64 bg-brand-secondary/90 backdrop-blur-md text-brand-text p-6 flex flex-col space-y-6 shadow-xl transform transition-transform duration-300 ease-in-out
+                   lg:w-72 lg:shadow-none lg:translate-x-0 lg:h-full lg:sticky lg:top-0"
       >
         <div className="flex items-center justify-between">
-          <div className="text-xl font-bold">VoltPath</div>
+          <div className="text-xl font-semibold tracking-wide bg-clip-text text-transparent bg-linear-to-r from-orange-400 via-yellow-300 to-orange-400">VoltPath</div>
           <button
             onClick={onClose}
-            className="p-2 rounded-md hover:bg-brand.secondary/70 lg:hidden"
+            className="p-2 rounded-md hover:bg-brand-secondary/70 lg:hidden"
             aria-label="Close menu"
           >
             <svg
@@ -73,14 +84,16 @@ export default function Sidebar({ open, onClose }) {
             </svg>
           </button>
         </div>
-        <nav className="space-y-3">
+        <nav className="flex-1 flex flex-col space-y-2 overflow-y-auto">
           {links.map((l) => (
             <NavLink
               key={l.to}
               to={l.to}
               className={({ isActive }) =>
-                `block px-4 py-2 rounded-lg hover:bg-brand.secondary/70 transition-colors duration-150 ${
-                  isActive ? "bg-brand-primary/20 text-brand-text" : "text-brand-text"
+                `flex items-center px-4 py-2 rounded-lg hover:bg-brand-accent/20 transition-colors duration-150 text-sm font-medium ${
+                  isActive
+                    ? "bg-brand-accent/10 text-brand-accent border-l-4 border-accent"
+                    : "text-brand-text"
                 }`
               }
               onClick={onClose}
@@ -89,10 +102,10 @@ export default function Sidebar({ open, onClose }) {
             </NavLink>
           ))}
         </nav>
-        <div className="mt-8">
+        <div className="mt-auto">
           <button
             onClick={handleNew}
-            className="w-full text-left px-4 py-2 rounded-lg bg-brand-primary/20 hover:bg-brand-primary/30 transition-colors text-sm text-brand-text"
+            className="w-full text-left px-4 py-2 rounded-lg bg-brand-accent text-brand-primary font-semibold hover:bg-brand-accent-hover transition-colors shadow-sm"
           >
             New Plan
           </button>
