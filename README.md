@@ -14,6 +14,15 @@ VoltPath is a comprehensive full-stack web application designed for Electric Veh
 
 ---
 
+## 🌐 Live Website
+<p align="center"> <a href="https://volt-path.vercel.app/" target="_blank"> <img src="https://img.shields.io/badge/Visit-VoltPath-0A66C2?style=for-the-badge&logo=vercel&logoColor=white" /> </a> </p>
+
+🚀 The project is successfully deployed and accessible online:
+
+👉 https://volt-path.vercel.app/
+
+---
+
 ## 📋 Table of Contents
 
 - [Problem Statement](#problem-statement)
@@ -52,6 +61,7 @@ VoltPath addresses these challenges by providing:
 6. **Trip History & Sharing**: Save your trips and share them with others for collaborative planning.
 
 ---
+
 
 ## ✨ Features
 
@@ -112,6 +122,11 @@ VoltPath addresses these challenges by providing:
   - Trip statistics and charts
   - Cost analysis
   - Environmental impact tracking
+
+---
+
+## 👥 Team Members
+<table align="center"> <tr> <th>Name</th> <th>Role</th> <th>Contribution</th> </tr> <tr> <td><b>Gaurav Athode</b></td> <td>👑 Team Leader</td> <td>Full Stack Development</td> </tr> <tr> <td><b>Hemant Rajput</b></td> <td>🤝 Team Member</td> <td>Map Integration</td> </tr> <tr> <td><b>Ashish Rajput</b></td> <td>🤝 Team Member</td> <td>Database Integration</td> </tr> <tr> <td><b>Narendra Vishwakarma</b></td> <td>🎨 Team Member</td> <td>UI/UX Design</td> </tr> </table>
 
 ---
 
